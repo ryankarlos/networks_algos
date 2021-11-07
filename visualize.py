@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from networkx.generators.ego import ego_graph
+from prefect import task
 from pyvis.network import Network
 from sklearn.decomposition import PCA
 
@@ -64,6 +65,7 @@ def plot_community_class_count(communities):
     return df
 
 
+@task
 def plot_link_features_projection(n_components, link_features, labels_test):
     # Learn a projection from 128 dimensions to 2
     pca = PCA(n_components=n_components)

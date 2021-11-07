@@ -1,7 +1,9 @@
 from IPython.display import HTML, display
+from prefect import task
 from stellargraph import datasets
 
 
+@task
 def cora_dataset():
     dataset = datasets.Cora()
     display(HTML(dataset.description))

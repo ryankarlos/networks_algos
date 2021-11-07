@@ -1,11 +1,12 @@
+import logging
+
 import networkx as nx
 from iteration_utilities import duplicates
+from prefect import task
 from sklearn.model_selection import train_test_split
 from stellargraph.data import EdgeSplitter
 
-from ..utils.log import get_logger
-
-LOG = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def get_edge_list(G, sort=True):
@@ -20,7 +21,7 @@ def get_edge_list(G, sort=True):
 def list_duplicate_edges(G):
     dup = list(duplicates(get_edge_list(G)))
     if len(dup) > 0:
-        LOG.info(f"{len(dup)} duplicates found")
+        logger.info(f"{len(dup)} duplicates found")
     return dup
 
 
@@ -38,6 +39,7 @@ def set_attributes(G, **kwargs):
     return G
 
 
+@task(nout=8)
 def edge_splitter_graph_train_test(graph):
     edge_splitter_test = EdgeSplitter(graph)
     graph_test, examples_test, labels_test = edge_splitter_test.train_test_split(
@@ -72,6 +74,7 @@ def edge_splitter_graph_train_test(graph):
     )
 
 
+@task
 def link_examples_to_features(link_examples, transform_node, binary_operator):
     return [
         binary_operator(transform_node(src), transform_node(dst))

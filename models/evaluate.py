@@ -1,14 +1,16 @@
 import networkx as nx
 import numpy as np
+import prefect
 from networkx.algorithms import community
+from prefect import task
 from sklearn.metrics import roc_auc_score
 
-from ..processing.build_features import link_examples_to_features
-from ..utils.log import get_logger
+from preprocess.build_features import link_examples_to_features
 
-LOG = get_logger(__name__)
+logger = prefect.context.get("logger")
 
 
+@task
 def compute_metrics(G):
     """
     degree, betweeness, communities
@@ -28,12 +30,14 @@ def compute_metrics(G):
     }
 
 
+@task
 def shortest_path(G, source_id, target_id):
     shortest_path = nx.shortest_path(G, source=source_id, target=target_id)
-    LOG.info("Shortest path between user1 and user2:", shortest_path)
+    logger.info("Shortest path between user1 and user2:", shortest_path)
     return shortest_path
 
 
+@task
 def evaluate_link_prediction_model(
     clf, link_examples_test, link_labels_test, get_embedding, binary_operator
 ):
