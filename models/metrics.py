@@ -1,37 +1,22 @@
 import networkx as nx
 import prefect
-from networkx.algorithms import community
 from prefect import task
 from sklearn.metrics import roc_auc_score
 
 logger = prefect.context.get("logger")
 
 
-@task
-def compute_metrics(G):
-    """
-    degree, betweeness, communities
-    """
-    degree_dict = dict(G.degree(G.nodes()))
-    betweenness_dict = nx.betweenness_centrality(G)
-    communities = community.greedy_modularity_communities(G)
-    modularity_dict = {}
-    for i, c in enumerate(communities):
-        for name in c:
-            modularity_dict[name] = i
-
-    return communities, {
-        "degree": degree_dict,
-        "betweeness": betweenness_dict,
-        "modularity": modularity_dict,
-    }
-
-
-@task
-def shortest_path(G, source_id, target_id):
-    shortest_path = nx.shortest_path(G, source=source_id, target=target_id)
-    logger.info("Shortest path between user1 and user2:", shortest_path)
-    return shortest_path
+def centrality(G):
+    closeness_centrality = nx.centrality.closeness_centrality(G)
+    degree_centrality = nx.centrality.degree_centrality(G)
+    betweenness_centrality = nx.centrality.betweenness_centrality(G)
+    eigenvector_centrality = nx.centrality.eigenvector_centrality(G)
+    return (
+        closeness_centrality,
+        degree_centrality,
+        betweenness_centrality,
+        eigenvector_centrality,
+    )
 
 
 @task
