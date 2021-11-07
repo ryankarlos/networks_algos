@@ -39,7 +39,6 @@ def node2vec_embedding(graph, name, **kwargs):
     return get_embedding
 
 
-@task
 def train_link_prediction_model(
     link_examples, link_labels, get_embedding, binary_operator
 ):
@@ -56,7 +55,6 @@ def link_prediction_classifier(max_iter=2000):
     return Pipeline(steps=[("sc", StandardScaler()), ("clf", lr_clf)])
 
 
-@task
 def evaluate_link_prediction_model(
     clf, link_examples_test, link_labels_test, get_embedding, binary_operator
 ):

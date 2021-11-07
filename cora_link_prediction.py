@@ -63,7 +63,9 @@ def train_link_classifier(
     results = []
     ops = [operator_hadamard, operator_l1, operator_l2, operator_avg]
     for op in ops:
-        clf = train_link_prediction_model(op)
+        clf = train_link_prediction_model(
+            examples_train, labels_train, embedding_train, op
+        )
         results.append(
             evaluate_link_prediction_model(
                 clf, examples_train, labels_train, embedding_train, op
@@ -90,7 +92,7 @@ def compute_best_results(results):
 
 @task
 def evaluate_on_test_data(examples_test, labels_test, embedding_test, best_result):
-    test_score = evaluate_link_prediction_model(
+    test_score = (
         best_result["classifier"],
         examples_test,
         labels_test,
@@ -101,14 +103,13 @@ def evaluate_on_test_data(examples_test, labels_test, embedding_test, best_resul
 
 
 @task
-def visualise_link_embeddings(examples_test, embedding_test, best_result):
+def visualise_link_embeddings(examples_test, embedding_test, labels_test, best_result):
     link_features = link_examples_to_features(
         examples_test, embedding_test, best_result["binary_operator"]
     )
     plot_link_features_projection(
         n_components=2, link_features=link_features, labels_test=labels_test
     )
-    return link_features
 
 
 if __name__ == "__main__":
@@ -129,6 +130,8 @@ if __name__ == "__main__":
         results = train_link_classifier(examples_train, labels_train, embedding_train)
         best_result, name = compute_best_results(results)
         evaluate_on_test_data(examples_test, labels_test, embedding_test, best_result)
-        visualise_link_embeddings(examples_test, embedding_test, best_result)
+        visualise_link_embeddings(
+            examples_test, embedding_test, labels_test, best_result
+        )
     # flow.visualize()
     flow.run()

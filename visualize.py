@@ -1,5 +1,4 @@
 import networkx as nx
-import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from networkx.generators.ego import ego_graph
@@ -75,12 +74,18 @@ def plot_community_class_count(communities):
 def plot_link_features_projection(n_components, link_features, labels_test):
     pca = PCA(n_components=n_components)
     X_transformed = pca.fit_transform(link_features)
-
     plt.figure(figsize=(16, 12))
+    col = []
+    for label in labels_test:
+        if label == 1:
+            col.append("red")
+        else:
+            col.append("blue")
+
     plt.scatter(
         X_transformed[:, 0],
         X_transformed[:, 1],
-        c=np.where(labels_test == 1, "b", "r"),
+        c=col,
         alpha=0.5,
     )
     plt.show()

@@ -1,6 +1,5 @@
 import networkx as nx
 import prefect
-from prefect import task
 from sklearn.metrics import roc_auc_score
 
 logger = prefect.context.get("logger")
@@ -19,7 +18,6 @@ def centrality(G):
     )
 
 
-@task
 def evaluate_roc_auc(clf, link_features, link_labels):
     predicted = clf.predict_proba(link_features)
 
