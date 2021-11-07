@@ -3,17 +3,14 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from networkx.generators.ego import ego_graph
-from prefect import task
 from pyvis.network import Network
 from sklearn.decomposition import PCA
 
 
 def draw_network(G, ax, edge_list=None, color="red"):
-    # draw from existing nx object
     if edge_list is not None:
         G = nx.Graph()
-        G.add_edges_from(edge_list)  # using a list of edge tuples
-        # pruned network after Max weighted spanning tree algo
+        G.add_edges_from(edge_list)
         pos = nx.spring_layout(G)
         nx.draw_networkx(G, pos=pos, node_color=color, ax=ax)
         print(nx.info(G))
@@ -44,6 +41,16 @@ def plot_ego_network(G, n, radius, ax):
     return ego_nx
 
 
+def plot_centrality_hist(centrality, name):
+    plt.figure(figsize=(15, 8))
+    plt.hist(centrality.values(), bins=60)
+    plt.xticks(ticks=[0, 0.01, 0.02, 0.04, 0.06, 0.08])
+    plt.title(f"Histogram - {name} ", fontdict={"size": 35}, loc="center")
+    plt.xlabel(f"{name}", fontdict={"size": 20})
+    plt.ylabel("Counts", fontdict={"size": 20})
+    plt.show()
+
+
 def plot_interactive_network(model, title):
     net = Network(notebook=True)
     net.from_nx(model)
@@ -65,13 +72,10 @@ def plot_community_class_count(communities):
     return df
 
 
-@task
 def plot_link_features_projection(n_components, link_features, labels_test):
-    # Learn a projection from 128 dimensions to 2
     pca = PCA(n_components=n_components)
     X_transformed = pca.fit_transform(link_features)
 
-    # plot the 2-dimensional points
     plt.figure(figsize=(16, 12))
     plt.scatter(
         X_transformed[:, 0],
@@ -79,3 +83,15 @@ def plot_link_features_projection(n_components, link_features, labels_test):
         c=np.where(labels_test == 1, "b", "r"),
         alpha=0.5,
     )
+    plt.show()
+
+
+def plot_shortest_paths_hist(frequencies):
+    plt.figure(figsize=(15, 8))
+    plt.bar(x=[i + 1 for i in range(8)], height=frequencies)
+    plt.title(
+        "Percentages of Shortest Path Lengths", fontdict={"size": 35}, loc="center"
+    )
+    plt.xlabel("Shortest Path Length", fontdict={"size": 22})
+    plt.ylabel("Percentage", fontdict={"size": 22})
+    plt.show()
