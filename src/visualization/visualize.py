@@ -1,7 +1,10 @@
 import networkx as nx
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
 from networkx.generators.ego import ego_graph
 from pyvis.network import Network
-import pandas as pd
+from sklearn.decomposition import PCA
 
 
 def draw_network(G, ax, edge_list=None, color="red"):
@@ -59,3 +62,18 @@ def plot_community_class_count(communities):
     df = pd.DataFrame({"class": class_list, "count": count_list})
     df.plot.bar(x="class", y="count")
     return df
+
+
+def plot_link_features_projection(n_components, link_features, labels_test):
+    # Learn a projection from 128 dimensions to 2
+    pca = PCA(n_components=n_components)
+    X_transformed = pca.fit_transform(link_features)
+
+    # plot the 2-dimensional points
+    plt.figure(figsize=(16, 12))
+    plt.scatter(
+        X_transformed[:, 0],
+        X_transformed[:, 1],
+        c=np.where(labels_test == 1, "b", "r"),
+        alpha=0.5,
+    )
