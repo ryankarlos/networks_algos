@@ -5,16 +5,16 @@ import pandas as pd
 import prefect
 from prefect import Flow, task
 
-from models.link_prediction import (
+from networks.io import cora_dataset
+from networks.models.algorithms import node2vec_embedding
+from networks.models.link_prediction import (
     evaluate_link_prediction_model,
-    node2vec_embedding,
     train_link_prediction_model,
 )
-from preprocess.build_features import (
+from networks.preprocess import (
     edge_splitter_graph_train_test,
     link_examples_to_features,
 )
-from preprocess.make_dataset import cora_dataset
 from vis.visualize import plot_link_features_projection
 
 logger = prefect.context.get("logger")

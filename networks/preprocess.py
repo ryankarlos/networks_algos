@@ -2,6 +2,7 @@ import logging
 
 import networkx as nx
 from iteration_utilities import duplicates
+from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.model_selection import train_test_split
 from stellargraph.data import EdgeSplitter
 
@@ -10,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 def get_edge_list(G, sort=True):
     if sort:
-        # sort by node 1
         sorted_edges = sorted(G.edges(), key=lambda x: x[0], reverse=True)
         return sorted_edges
     else:
@@ -24,12 +24,34 @@ def list_duplicate_edges(G):
     return dup
 
 
+def create_network_from_df(df):
+    df = df.rename(columns={df.columns[0]: "source", df.columns[1]: "target"})
+    graph_type = nx.Graph()
+    G = nx.from_pandas_edgelist(df, create_using=graph_type)
+    return G
+
+
 def remove_nodes_with_low_degree(G, n):
     degree_sorted = sorted(G.degree(), key=lambda x: x[1], reverse=True)
     # keep top n nodes
     node_list_remove = [node for node, v in degree_sorted[n::]]
     G.remove_nodes_from(node_list_remove)
     return G
+
+
+def get_subgraph(G, node_list):
+    subgraph = G.subgraph(node_list)
+    diameter = nx.diameter(subgraph)
+    print("Network diameter of largest component:", diameter)
+    return subgraph
+
+
+def created_weighted_network_with_cosine_similarity(df):
+    S = cosine_similarity(df.values)
+    G = nx.from_numpy_array(S)
+    names = list(df.index)
+    mapping = dict(zip(G, names))
+    return nx.relabel_nodes(G, mapping)
 
 
 def set_attributes(G, **kwargs):
