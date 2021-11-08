@@ -15,7 +15,7 @@ from preprocess.build_features import (
     link_examples_to_features,
 )
 from preprocess.make_dataset import cora_dataset
-from visualize import plot_link_features_projection
+from vis.visualize import plot_link_features_projection
 
 logger = prefect.context.get("logger")
 
