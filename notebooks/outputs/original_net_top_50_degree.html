@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+
+
+
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+
+
+
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network;
+    var container;
+    var options, data;
+
+
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+
+
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": 21142, "label": 21142, "shape": "dot", "size": 10}, {"id": 27803, "label": 27803, "shape": "dot", "size": 10}, {"id": 3153, "label": 3153, "shape": "dot", "size": 10}, {"id": 5629, "label": 5629, "shape": "dot", "size": 10}, {"id": 10001, "label": 10001, "shape": "dot", "size": 10}, {"id": 11279, "label": 11279, "shape": "dot", "size": 10}, {"id": 19222, "label": 19222, "shape": "dot", "size": 10}, {"id": 3712, "label": 3712, "shape": "dot", "size": 10}, {"id": 31890, "label": 31890, "shape": "dot", "size": 10}, {"id": 30002, "label": 30002, "shape": "dot", "size": 10}, {"id": 36628, "label": 36628, "shape": "dot", "size": 10}, {"id": 22881, "label": 22881, "shape": "dot", "size": 10}, {"id": 974, "label": 974, "shape": "dot", "size": 10}, {"id": 22642, "label": 22642, "shape": "dot", "size": 10}, {"id": 19253, "label": 19253, "shape": "dot", "size": 10}, {"id": 10080, "label": 10080, "shape": "dot", "size": 10}, {"id": 18945, "label": 18945, "shape": "dot", "size": 10}, {"id": 28957, "label": 28957, "shape": "dot", "size": 10}, {"id": 10595, "label": 10595, "shape": "dot", "size": 10}, {"id": 10830, "label": 10830, "shape": "dot", "size": 10}, {"id": 11051, "label": 11051, "shape": "dot", "size": 10}, {"id": 2078, "label": 2078, "shape": "dot", "size": 10}, {"id": 36652, "label": 36652, "shape": "dot", "size": 10}, {"id": 23838, "label": 23838, "shape": "dot", "size": 10}, {"id": 22666, "label": 22666, "shape": "dot", "size": 10}, {"id": 23589, "label": 23589, "shape": "dot", "size": 10}, {"id": 3922, "label": 3922, "shape": "dot", "size": 10}, {"id": 22321, "label": 22321, "shape": "dot", "size": 10}, {"id": 22353, "label": 22353, "shape": "dot", "size": 10}, {"id": 25477, "label": 25477, "shape": "dot", "size": 10}, {"id": 13638, "label": 13638, "shape": "dot", "size": 10}, {"id": 14242, "label": 14242, "shape": "dot", "size": 10}, {"id": 15191, "label": 15191, "shape": "dot", "size": 10}, {"id": 23664, "label": 23664, "shape": "dot", "size": 10}, {"id": 33671, "label": 33671, "shape": "dot", "size": 10}, {"id": 73, "label": 73, "shape": "dot", "size": 10}, {"id": 6631, "label": 6631, "shape": "dot", "size": 10}, {"id": 25249, "label": 25249, "shape": "dot", "size": 10}, {"id": 7027, "label": 7027, "shape": "dot", "size": 10}, {"id": 14954, "label": 14954, "shape": "dot", "size": 10}, {"id": 7195, "label": 7195, "shape": "dot", "size": 10}, {"id": 33029, "label": 33029, "shape": "dot", "size": 10}, {"id": 35773, "label": 35773, "shape": "dot", "size": 10}, {"id": 18163, "label": 18163, "shape": "dot", "size": 10}, {"id": 30199, "label": 30199, "shape": "dot", "size": 10}, {"id": 36790, "label": 36790, "shape": "dot", "size": 10}, {"id": 36289, "label": 36289, "shape": "dot", "size": 10}, {"id": 27450, "label": 27450, "shape": "dot", "size": 10}, {"id": 35008, "label": 35008, "shape": "dot", "size": 10}, {"id": 9051, "label": 9051, "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": 21142, "to": 27803, "weight": 1}, {"from": 21142, "to": 3153, "weight": 1}, {"from": 21142, "to": 5629, "weight": 1}, {"from": 21142, "to": 10001, "weight": 1}, {"from": 21142, "to": 11279, "weight": 1}, {"from": 21142, "to": 19222, "weight": 1}, {"from": 21142, "to": 3712, "weight": 1}, {"from": 21142, "to": 31890, "weight": 1}, {"from": 21142, "to": 30002, "weight": 1}, {"from": 21142, "to": 36628, "weight": 1}, {"from": 21142, "to": 22881, "weight": 1}, {"from": 27803, "to": 974, "weight": 1}, {"from": 27803, "to": 22642, "weight": 1}, {"from": 27803, "to": 10001, "weight": 1}, {"from": 27803, "to": 19253, "weight": 1}, {"from": 27803, "to": 10080, "weight": 1}, {"from": 27803, "to": 18945, "weight": 1}, {"from": 27803, "to": 28957, "weight": 1}, {"from": 27803, "to": 10595, "weight": 1}, {"from": 27803, "to": 11279, "weight": 1}, {"from": 27803, "to": 10830, "weight": 1}, {"from": 27803, "to": 11051, "weight": 1}, {"from": 27803, "to": 2078, "weight": 1}, {"from": 27803, "to": 3153, "weight": 1}, {"from": 27803, "to": 36652, "weight": 1}, {"from": 27803, "to": 23838, "weight": 1}, {"from": 27803, "to": 22666, "weight": 1}, {"from": 27803, "to": 23589, "weight": 1}, {"from": 27803, "to": 3922, "weight": 1}, {"from": 27803, "to": 22321, "weight": 1}, {"from": 27803, "to": 22353, "weight": 1}, {"from": 27803, "to": 30002, "weight": 1}, {"from": 27803, "to": 36628, "weight": 1}, {"from": 27803, "to": 19222, "weight": 1}, {"from": 27803, "to": 25477, "weight": 1}, {"from": 27803, "to": 13638, "weight": 1}, {"from": 27803, "to": 22881, "weight": 1}, {"from": 27803, "to": 14242, "weight": 1}, {"from": 27803, "to": 15191, "weight": 1}, {"from": 27803, "to": 23664, "weight": 1}, {"from": 27803, "to": 31890, "weight": 1}, {"from": 27803, "to": 33671, "weight": 1}, {"from": 27803, "to": 5629, "weight": 1}, {"from": 27803, "to": 73, "weight": 1}, {"from": 27803, "to": 6631, "weight": 1}, {"from": 27803, "to": 25249, "weight": 1}, {"from": 27803, "to": 7027, "weight": 1}, {"from": 27803, "to": 14954, "weight": 1}, {"from": 27803, "to": 7195, "weight": 1}, {"from": 27803, "to": 33029, "weight": 1}, {"from": 27803, "to": 3712, "weight": 1}, {"from": 27803, "to": 35773, "weight": 1}, {"from": 27803, "to": 18163, "weight": 1}, {"from": 27803, "to": 30199, "weight": 1}, {"from": 27803, "to": 36790, "weight": 1}, {"from": 27803, "to": 36289, "weight": 1}, {"from": 27803, "to": 27450, "weight": 1}, {"from": 27803, "to": 35008, "weight": 1}, {"from": 27803, "to": 9051, "weight": 1}, {"from": 31890, "to": 974, "weight": 1}, {"from": 31890, "to": 2078, "weight": 1}, {"from": 31890, "to": 3153, "weight": 1}, {"from": 31890, "to": 5629, "weight": 1}, {"from": 31890, "to": 7027, "weight": 1}, {"from": 31890, "to": 7195, "weight": 1}, {"from": 31890, "to": 10001, "weight": 1}, {"from": 31890, "to": 10080, "weight": 1}, {"from": 31890, "to": 18945, "weight": 1}, {"from": 31890, "to": 10595, "weight": 1}, {"from": 31890, "to": 11051, "weight": 1}, {"from": 31890, "to": 11279, "weight": 1}, {"from": 31890, "to": 36289, "weight": 1}, {"from": 31890, "to": 13638, "weight": 1}, {"from": 31890, "to": 14242, "weight": 1}, {"from": 31890, "to": 19222, "weight": 1}, {"from": 31890, "to": 19253, "weight": 1}, {"from": 31890, "to": 22321, "weight": 1}, {"from": 31890, "to": 22353, "weight": 1}, {"from": 31890, "to": 22881, "weight": 1}, {"from": 31890, "to": 23664, "weight": 1}, {"from": 31890, "to": 25249, "weight": 1}, {"from": 31890, "to": 25477, "weight": 1}, {"from": 31890, "to": 35773, "weight": 1}, {"from": 31890, "to": 28957, "weight": 1}, {"from": 31890, "to": 35008, "weight": 1}, {"from": 31890, "to": 30002, "weight": 1}, {"from": 31890, "to": 36628, "weight": 1}, {"from": 31890, "to": 36652, "weight": 1}, {"from": 30199, "to": 10080, "weight": 1}, {"from": 30199, "to": 13638, "weight": 1}, {"from": 30199, "to": 19222, "weight": 1}, {"from": 30199, "to": 22881, "weight": 1}, {"from": 30199, "to": 25477, "weight": 1}, {"from": 30199, "to": 35773, "weight": 1}, {"from": 30199, "to": 36628, "weight": 1}, {"from": 30199, "to": 33029, "weight": 1}, {"from": 35773, "to": 974, "weight": 1}, {"from": 35773, "to": 73, "weight": 1}, {"from": 35773, "to": 6631, "weight": 1}, {"from": 35773, "to": 7027, "weight": 1}, {"from": 35773, "to": 7195, "weight": 1}, {"from": 35773, "to": 9051, "weight": 1}, {"from": 35773, "to": 10001, "weight": 1}, {"from": 35773, "to": 18945, "weight": 1}, {"from": 35773, "to": 13638, "weight": 1}, {"from": 35773, "to": 14242, "weight": 1}, {"from": 35773, "to": 19222, "weight": 1}, {"from": 35773, "to": 19253, "weight": 1}, {"from": 35773, "to": 22881, "weight": 1}, {"from": 35773, "to": 23664, "weight": 1}, {"from": 35773, "to": 25477, "weight": 1}, {"from": 35773, "to": 30002, "weight": 1}, {"from": 35773, "to": 18163, "weight": 1}, {"from": 35773, "to": 33029, "weight": 1}, {"from": 35773, "to": 36628, "weight": 1}, {"from": 9051, "to": 3153, "weight": 1}, {"from": 9051, "to": 6631, "weight": 1}, {"from": 9051, "to": 14242, "weight": 1}, {"from": 9051, "to": 19222, "weight": 1}, {"from": 9051, "to": 10001, "weight": 1}, {"from": 9051, "to": 19253, "weight": 1}, {"from": 9051, "to": 10080, "weight": 1}, {"from": 9051, "to": 25477, "weight": 1}, {"from": 9051, "to": 36628, "weight": 1}, {"from": 9051, "to": 13638, "weight": 1}, {"from": 9051, "to": 22881, "weight": 1}, {"from": 19253, "to": 2078, "weight": 1}, {"from": 19253, "to": 3153, "weight": 1}, {"from": 19253, "to": 3922, "weight": 1}, {"from": 19253, "to": 5629, "weight": 1}, {"from": 19253, "to": 73, "weight": 1}, {"from": 19253, "to": 7027, "weight": 1}, {"from": 19253, "to": 10001, "weight": 1}, {"from": 19253, "to": 10080, "weight": 1}, {"from": 19253, "to": 18945, "weight": 1}, {"from": 19253, "to": 10595, "weight": 1}, {"from": 19253, "to": 11051, "weight": 1}, {"from": 19253, "to": 11279, "weight": 1}, {"from": 19253, "to": 36289, "weight": 1}, {"from": 19253, "to": 13638, "weight": 1}, {"from": 19253, "to": 14242, "weight": 1}, {"from": 19253, "to": 14954, "weight": 1}, {"from": 19253, "to": 19222, "weight": 1}, {"from": 19253, "to": 25477, "weight": 1}, {"from": 19253, "to": 36652, "weight": 1}, {"from": 19253, "to": 15191, "weight": 1}, {"from": 19253, "to": 23838, "weight": 1}, {"from": 19253, "to": 23589, "weight": 1}, {"from": 19253, "to": 3712, "weight": 1}, {"from": 19253, "to": 23664, "weight": 1}, {"from": 19253, "to": 18163, "weight": 1}, {"from": 19253, "to": 28957, "weight": 1}, {"from": 19253, "to": 36790, "weight": 1}, {"from": 19253, "to": 36628, "weight": 1}, {"from": 19253, "to": 22353, "weight": 1}, {"from": 19253, "to": 22642, "weight": 1}, {"from": 19253, "to": 27450, "weight": 1}, {"from": 19253, "to": 35008, "weight": 1}, {"from": 19253, "to": 30002, "weight": 1}, {"from": 19253, "to": 22881, "weight": 1}, {"from": 36652, "to": 5629, "weight": 1}, {"from": 36652, "to": 7195, "weight": 1}, {"from": 36652, "to": 33671, "weight": 1}, {"from": 36652, "to": 10001, "weight": 1}, {"from": 36652, "to": 10080, "weight": 1}, {"from": 36652, "to": 13638, "weight": 1}, {"from": 36652, "to": 14242, "weight": 1}, {"from": 36652, "to": 19222, "weight": 1}, {"from": 36652, "to": 22881, "weight": 1}, {"from": 36652, "to": 25477, "weight": 1}, {"from": 36652, "to": 30002, "weight": 1}, {"from": 36652, "to": 18163, "weight": 1}, {"from": 36652, "to": 36628, "weight": 1}, {"from": 10080, "to": 5629, "weight": 1}, {"from": 10080, "to": 10001, "weight": 1}, {"from": 10080, "to": 18163, "weight": 1}, {"from": 10080, "to": 23664, "weight": 1}, {"from": 10080, "to": 22881, "weight": 1}, {"from": 10080, "to": 19222, "weight": 1}, {"from": 10080, "to": 13638, "weight": 1}, {"from": 10080, "to": 30002, "weight": 1}, {"from": 23589, "to": 7195, "weight": 1}, {"from": 23589, "to": 33671, "weight": 1}, {"from": 23589, "to": 10001, "weight": 1}, {"from": 23589, "to": 13638, "weight": 1}, {"from": 23589, "to": 14242, "weight": 1}, {"from": 23589, "to": 19222, "weight": 1}, {"from": 23589, "to": 22881, "weight": 1}, {"from": 23589, "to": 28957, "weight": 1}, {"from": 23589, "to": 25477, "weight": 1}, {"from": 23589, "to": 33029, "weight": 1}, {"from": 23589, "to": 36628, "weight": 1}, {"from": 2078, "to": 974, "weight": 1}, {"from": 2078, "to": 25477, "weight": 1}, {"from": 2078, "to": 7195, "weight": 1}, {"from": 2078, "to": 14242, "weight": 1}, {"from": 2078, "to": 19222, "weight": 1}, {"from": 2078, "to": 10001, "weight": 1}, {"from": 2078, "to": 36628, "weight": 1}, {"from": 2078, "to": 13638, "weight": 1}, {"from": 2078, "to": 22881, "weight": 1}, {"from": 27450, "to": 5629, "weight": 1}, {"from": 27450, "to": 10001, "weight": 1}, {"from": 27450, "to": 11051, "weight": 1}, {"from": 27450, "to": 13638, "weight": 1}, {"from": 27450, "to": 14242, "weight": 1}, {"from": 27450, "to": 19222, "weight": 1}, {"from": 27450, "to": 25477, "weight": 1}, {"from": 27450, "to": 36628, "weight": 1}, {"from": 19222, "to": 974, "weight": 1}, {"from": 19222, "to": 3153, "weight": 1}, {"from": 19222, "to": 73, "weight": 1}, {"from": 19222, "to": 6631, "weight": 1}, {"from": 19222, "to": 7027, "weight": 1}, {"from": 19222, "to": 7195, "weight": 1}, {"from": 19222, "to": 33671, "weight": 1}, {"from": 19222, "to": 10001, "weight": 1}, {"from": 19222, "to": 18945, "weight": 1}, {"from": 19222, "to": 10830, "weight": 1}, {"from": 19222, "to": 11051, "weight": 1}, {"from": 19222, "to": 11279, "weight": 1}, {"from": 19222, "to": 13638, "weight": 1}, {"from": 19222, "to": 14242, "weight": 1}, {"from": 19222, "to": 14954, "weight": 1}, {"from": 19222, "to": 22881, "weight": 1}, {"from": 19222, "to": 15191, "weight": 1}, {"from": 19222, "to": 23838, "weight": 1}, {"from": 19222, "to": 23664, "weight": 1}, {"from": 19222, "to": 22642, "weight": 1}, {"from": 19222, "to": 22666, "weight": 1}, {"from": 19222, "to": 22321, "weight": 1}, {"from": 19222, "to": 28957, "weight": 1}, {"from": 19222, "to": 36628, "weight": 1}, {"from": 19222, "to": 35008, "weight": 1}, {"from": 19222, "to": 30002, "weight": 1}, {"from": 19222, "to": 25249, "weight": 1}, {"from": 19222, "to": 25477, "weight": 1}, {"from": 19222, "to": 33029, "weight": 1}, {"from": 19222, "to": 18163, "weight": 1}, {"from": 19222, "to": 36790, "weight": 1}, {"from": 19222, "to": 22353, "weight": 1}, {"from": 19222, "to": 3712, "weight": 1}, {"from": 22666, "to": 974, "weight": 1}, {"from": 22666, "to": 3153, "weight": 1}, {"from": 22666, "to": 7195, "weight": 1}, {"from": 22666, "to": 10001, "weight": 1}, {"from": 22666, "to": 10830, "weight": 1}, {"from": 22666, "to": 13638, "weight": 1}, {"from": 22666, "to": 14242, "weight": 1}, {"from": 22666, "to": 22881, "weight": 1}, {"from": 22666, "to": 23664, "weight": 1}, {"from": 22666, "to": 25477, "weight": 1}, {"from": 22666, "to": 3712, "weight": 1}, {"from": 22666, "to": 36628, "weight": 1}, {"from": 13638, "to": 3153, "weight": 1}, {"from": 13638, "to": 7027, "weight": 1}, {"from": 13638, "to": 7195, "weight": 1}, {"from": 13638, "to": 33671, "weight": 1}, {"from": 13638, "to": 10830, "weight": 1}, {"from": 13638, "to": 11051, "weight": 1}, {"from": 13638, "to": 33029, "weight": 1}, {"from": 13638, "to": 15191, "weight": 1}, {"from": 13638, "to": 3712, "weight": 1}, {"from": 13638, "to": 22321, "weight": 1}, {"from": 13638, "to": 25477, "weight": 1}, {"from": 13638, "to": 28957, "weight": 1}, {"from": 13638, "to": 22353, "weight": 1}, {"from": 13638, "to": 36628, "weight": 1}, {"from": 13638, "to": 35008, "weight": 1}, {"from": 13638, "to": 30002, "weight": 1}, {"from": 13638, "to": 25249, "weight": 1}, {"from": 13638, "to": 22881, "weight": 1}, {"from": 30002, "to": 7027, "weight": 1}, {"from": 30002, "to": 10001, "weight": 1}, {"from": 30002, "to": 10830, "weight": 1}, {"from": 30002, "to": 14242, "weight": 1}, {"from": 30002, "to": 22321, "weight": 1}, {"from": 30002, "to": 22881, "weight": 1}, {"from": 30002, "to": 23838, "weight": 1}, {"from": 30002, "to": 25477, "weight": 1}, {"from": 30002, "to": 28957, "weight": 1}, {"from": 30002, "to": 18163, "weight": 1}, {"from": 30002, "to": 33029, "weight": 1}, {"from": 30002, "to": 36628, "weight": 1}, {"from": 7027, "to": 25477, "weight": 1}, {"from": 7027, "to": 15191, "weight": 1}, {"from": 7027, "to": 10001, "weight": 1}, {"from": 7027, "to": 36628, "weight": 1}, {"from": 7027, "to": 33029, "weight": 1}, {"from": 7027, "to": 22881, "weight": 1}, {"from": 35008, "to": 33671, "weight": 1}, {"from": 35008, "to": 10001, "weight": 1}, {"from": 35008, "to": 36289, "weight": 1}, {"from": 35008, "to": 22881, "weight": 1}, {"from": 35008, "to": 23664, "weight": 1}, {"from": 35008, "to": 25477, "weight": 1}, {"from": 35008, "to": 36628, "weight": 1}, {"from": 11051, "to": 7195, "weight": 1}, {"from": 11051, "to": 10001, "weight": 1}, {"from": 11051, "to": 18945, "weight": 1}, {"from": 11051, "to": 36628, "weight": 1}, {"from": 11051, "to": 15191, "weight": 1}, {"from": 11051, "to": 22881, "weight": 1}, {"from": 5629, "to": 11279, "weight": 1}, {"from": 5629, "to": 23838, "weight": 1}, {"from": 5629, "to": 22642, "weight": 1}, {"from": 5629, "to": 3712, "weight": 1}, {"from": 5629, "to": 10001, "weight": 1}, {"from": 5629, "to": 36289, "weight": 1}, {"from": 5629, "to": 15191, "weight": 1}, {"from": 23838, "to": 6631, "weight": 1}, {"from": 23838, "to": 7195, "weight": 1}, {"from": 23838, "to": 14242, "weight": 1}, {"from": 23838, "to": 22881, "weight": 1}, {"from": 23838, "to": 33029, "weight": 1}, {"from": 23838, "to": 25477, "weight": 1}, {"from": 33671, "to": 14954, "weight": 1}, {"from": 33671, "to": 10001, "weight": 1}, {"from": 18163, "to": 10001, "weight": 1}, {"from": 18163, "to": 22881, "weight": 1}, {"from": 18163, "to": 25477, "weight": 1}, {"from": 3922, "to": 3153, "weight": 1}, {"from": 3922, "to": 10595, "weight": 1}, {"from": 3922, "to": 36628, "weight": 1}, {"from": 3922, "to": 10001, "weight": 1}, {"from": 3922, "to": 25249, "weight": 1}, {"from": 3922, "to": 22881, "weight": 1}, {"from": 22321, "to": 36628, "weight": 1}, {"from": 22321, "to": 22881, "weight": 1}, {"from": 22321, "to": 22353, "weight": 1}, {"from": 22321, "to": 33029, "weight": 1}, {"from": 15191, "to": 3153, "weight": 1}, {"from": 15191, "to": 6631, "weight": 1}, {"from": 15191, "to": 7195, "weight": 1}, {"from": 15191, "to": 10001, "weight": 1}, {"from": 15191, "to": 14242, "weight": 1}, {"from": 15191, "to": 22881, "weight": 1}, {"from": 15191, "to": 25477, "weight": 1}, {"from": 15191, "to": 36628, "weight": 1}, {"from": 14242, "to": 974, "weight": 1}, {"from": 14242, "to": 3153, "weight": 1}, {"from": 14242, "to": 73, "weight": 1}, {"from": 14242, "to": 6631, "weight": 1}, {"from": 14242, "to": 10001, "weight": 1}, {"from": 14242, "to": 10830, "weight": 1}, {"from": 14242, "to": 3712, "weight": 1}, {"from": 14242, "to": 23664, "weight": 1}, {"from": 14242, "to": 36790, "weight": 1}, {"from": 33029, "to": 974, "weight": 1}, {"from": 33029, "to": 7195, "weight": 1}, {"from": 33029, "to": 10001, "weight": 1}, {"from": 33029, "to": 22881, "weight": 1}, {"from": 33029, "to": 25477, "weight": 1}, {"from": 33029, "to": 36628, "weight": 1}, {"from": 3712, "to": 3153, "weight": 1}, {"from": 3712, "to": 6631, "weight": 1}, {"from": 3712, "to": 10001, "weight": 1}, {"from": 3712, "to": 10830, "weight": 1}, {"from": 3712, "to": 11279, "weight": 1}, {"from": 3712, "to": 22881, "weight": 1}, {"from": 3712, "to": 23664, "weight": 1}, {"from": 3712, "to": 25477, "weight": 1}, {"from": 3712, "to": 36628, "weight": 1}, {"from": 3153, "to": 974, "weight": 1}, {"from": 3153, "to": 28957, "weight": 1}, {"from": 3153, "to": 25477, "weight": 1}, {"from": 3153, "to": 10595, "weight": 1}, {"from": 3153, "to": 73, "weight": 1}, {"from": 3153, "to": 11279, "weight": 1}, {"from": 3153, "to": 22642, "weight": 1}, {"from": 3153, "to": 10001, "weight": 1}, {"from": 3153, "to": 22881, "weight": 1}, {"from": 10001, "to": 974, "weight": 1}, {"from": 10001, "to": 73, "weight": 1}, {"from": 10001, "to": 6631, "weight": 1}, {"from": 10001, "to": 7195, "weight": 1}, {"from": 10001, "to": 25477, "weight": 1}, {"from": 10001, "to": 11279, "weight": 1}, {"from": 10001, "to": 23664, "weight": 1}, {"from": 10001, "to": 22642, "weight": 1}, {"from": 10001, "to": 36289, "weight": 1}, {"from": 10001, "to": 18945, "weight": 1}, {"from": 10001, "to": 10595, "weight": 1}, {"from": 10001, "to": 22353, "weight": 1}, {"from": 10001, "to": 36628, "weight": 1}, {"from": 10001, "to": 25249, "weight": 1}, {"from": 6631, "to": 974, "weight": 1}, {"from": 6631, "to": 73, "weight": 1}, {"from": 6631, "to": 23664, "weight": 1}, {"from": 6631, "to": 36790, "weight": 1}, {"from": 23664, "to": 974, "weight": 1}, {"from": 23664, "to": 73, "weight": 1}, {"from": 23664, "to": 22353, "weight": 1}, {"from": 23664, "to": 22881, "weight": 1}, {"from": 36628, "to": 974, "weight": 1}, {"from": 36628, "to": 73, "weight": 1}, {"from": 36628, "to": 7195, "weight": 1}, {"from": 36628, "to": 10595, "weight": 1}, {"from": 36628, "to": 10830, "weight": 1}, {"from": 36628, "to": 11279, "weight": 1}, {"from": 36628, "to": 36289, "weight": 1}, {"from": 36628, "to": 22353, "weight": 1}, {"from": 36628, "to": 22642, "weight": 1}, {"from": 36628, "to": 22881, "weight": 1}, {"from": 36628, "to": 25249, "weight": 1}, {"from": 36628, "to": 25477, "weight": 1}, {"from": 36628, "to": 28957, "weight": 1}, {"from": 22881, "to": 974, "weight": 1}, {"from": 22881, "to": 73, "weight": 1}, {"from": 22881, "to": 18945, "weight": 1}, {"from": 22881, "to": 10595, "weight": 1}, {"from": 22881, "to": 10830, "weight": 1}, {"from": 22881, "to": 11279, "weight": 1}, {"from": 22881, "to": 36289, "weight": 1}, {"from": 22881, "to": 14954, "weight": 1}, {"from": 22881, "to": 22642, "weight": 1}, {"from": 25477, "to": 974, "weight": 1}, {"from": 25477, "to": 10595, "weight": 1}, {"from": 25477, "to": 10830, "weight": 1}, {"from": 25477, "to": 14954, "weight": 1}, {"from": 25477, "to": 22353, "weight": 1}, {"from": 25477, "to": 25249, "weight": 1}, {"from": 11279, "to": 36790, "weight": 1}, {"from": 10595, "to": 22353, "weight": 1}, {"from": 10595, "to": 36289, "weight": 1}, {"from": 10595, "to": 25249, "weight": 1}, {"from": 25249, "to": 7195, "weight": 1}, {"from": 25249, "to": 22353, "weight": 1}, {"from": 10830, "to": 974, "weight": 1}, {"from": 10830, "to": 7195, "weight": 1}, {"from": 10830, "to": 28957, "weight": 1}, {"from": 974, "to": 7195, "weight": 1}, {"from": 7195, "to": 14954, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+
+
+
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+
+
+        network = new vis.Network(container, data, options);
+
+
+
+
+
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
